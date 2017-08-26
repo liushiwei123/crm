@@ -1,0 +1,98 @@
+<html>
+<head>
+    <#include "common.ftl" >
+    <script type="text/javascript" src="${ctx}/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="${ctx}/js/customer.serve.assign.js"></script>
+</head>
+<body style="margin: 1px">
+<table id="dg" title="服务分配" class="easyui-datagrid"
+       fitColumns="true" pagination="true" rownumbers="true"
+       url="${ctx}/customerServe/queryCustomerServeByState?state=100001" fit="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true" align="center"></th>
+        <th field="id" width="50" align="center">编号</th>
+        <th field="serveType" width="200" align="center" >服务类型</th>
+        <th field="customer" width="50" align="center">客户名称</th>
+        <th field="createPeople" width="50" align="center">创建人</th>
+        <th field="createDate" width="50" align="center" >创建时间</th>
+       
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <div>
+        <a href="javascript:openCustomerServeProceDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">处理服务</a>
+    </div>
+   
+</div>
+
+<!--分配信息 对话框-->
+<div id="dlg" class="easyui-dialog" title="服务处理" closed="true" style="width:900px;height:450px;padding: 10px 20px"
+     buttons="#dlg-buttons">
+     
+      <form id="fm" method="post">
+      <input type="hidden" id="id" name="id" />
+        <table >
+            <tr>
+                <td>服务类型：</td>
+                <td>
+                    <input type="text" id="serveType" name="serveType" />
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td>客户：</td>
+                <td><input type="text" id="customer" name="customer" />
+            </tr>
+            <tr>
+                <td>概要：</td>
+                <td colspan="4">
+                    <input type="text" id="overview" name="overview" style="width: 419px" />
+                </td>
+            </tr>
+            <tr>
+                <td>服务请求：</td>
+                <td colspan="4">
+                    <textarea id="serviceRequest" name="serviceRequest" rows="5" cols="49" ></textarea>&nbsp;<font color="red">*</font>
+                </td>     
+            </tr>
+            <tr>
+            	<td>创建人：</td>
+                <td >
+                    <input id="createPeople" name="createPeople"  ></input>
+                </td>
+            
+             	<td>创建时间：</td>
+                <td colspan="4">
+                    <input id="createDate" name="createDate"  ></input>
+                </td>
+            </tr>      
+            <tr>
+                <td>分配给：</td>
+                <td>
+                <select name="assigner" class="easyui-combobox" url="${ctx}/user/queryCustomerManager" valueField="trueName" textField="trueName" style="width:200px;" editable="false" panelHeight="auto">   
+				</select> 
+				</td>
+            </tr>
+            
+           
+            
+            
+        </table>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:addCustomerServeAssign()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a href="javascript:closeCustomerServeDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

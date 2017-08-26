@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shsxt.crm.dao.RoleDao">
+  <resultMap id="BaseResultMap" type="com.shsxt.crm.vo.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_level" jdbcType="INTEGER" property="roleLevel" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="update_date" jdbcType="DATE" property="updateDate" />
+    <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, role_name, role_level, create_date, update_date, is_valid
+  </sql>
+  <select id="queryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where id = #{id,jdbcType=INTEGER} and is_valid=1
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from t_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insert" parameterType="com.shsxt.crm.vo.Role">
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="roleLevel != null">
+        role_level,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleLevel != null">
+        #{roleLevel,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.shsxt.crm.vo.Role">
+    update t_role
+    <set>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleLevel != null">
+        role_level = #{roleLevel,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+  
+  
+  <select id="queryRoles" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+      from t_role
+      where is_valid=1 
+  
+  </select>
+  
+  
+  
+  <select id="queryForPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_role
+     where is_valid=1
+  </select>
+  
+  
+  <select id="queryRoleByRoleName"  resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+      from t_role
+  where is_valid=1 and role_name=#{roleName}
+  </select>
+  
+  
+    
+  
+  <update id="deleteBatch" >
+    update t_role
+    set is_valid=0
+    where id in 
+    <foreach collection="array" item="item" open="(" separator="," close=")">
+       #{item}
+    </foreach>
+  
+  </update>
+  
+  
+  
+  <select id="queryRoleHasMenuIds" resultType="int">
+     select menu_id
+     from t_role_menu
+     where role_id=#{rid}
+  
+  
+  </select>
+  
+  
+  
+ 
+</mapper>
